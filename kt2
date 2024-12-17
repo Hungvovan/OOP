@@ -1,0 +1,182 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+class Canbo {
+private:
+    string mcb, hoten, donvi;
+    int hsluong;
+
+public:
+    Canbo(string mcb = "", string hoten = "", string donvi = "", int hsluong = 1)
+        : mcb(mcb), hoten(hoten), donvi(donvi), hsluong(hsluong) {}
+
+    void setMcb(string mcb) {
+        this->mcb = mcb;
+    }
+    string getMcb() const {
+        return mcb;
+    }
+    void setTen(string hoten) {
+        this->hoten = hoten;
+    }
+
+    string getTen() const {
+        return hoten;
+    }
+    void setDv(string donvi) {
+        this->donvi = donvi;
+    }
+    string getDv() const {
+        return donvi;
+    }
+    void sethsl(int hsluong) {
+        this->hsluong = hsluong;
+    }
+    int gethsl() const {
+        return hsluong;
+    }
+    virtual void nhap() {
+        cin.ignore();
+        getline(cin, mcb);
+        getline(cin, hoten);
+        getline(cin, donvi);
+        cin >> hsluong;
+    }
+    virtual void in() const {
+        cout << "MCB: " << mcb << endl;
+        cout << "Ho ten: " << hoten << endl;
+        cout << "Don vi: " << donvi << endl;
+        cout << "HS luong: " << hsluong << endl;
+    }
+
+    bool operator>(const Canbo& other) const {
+        stringstream ss1(hoten), ss2(other.hoten);
+        string ten1, ten2, hoDem1, hoDem2;
+        
+        ss1 >> ten1 >> hoDem1;
+        ss2 >> ten2 >> hoDem2;
+
+        if (ten1 == ten2) {
+            return hoDem1 < hoDem2;
+        }
+        return ten1 < ten2;
+    }
+};
+
+class CanBoGiangDay : public Canbo {
+private:
+    int hscv, nbd;
+
+public:
+    CanBoGiangDay(string mcb = "", string hoten = "", string donvi = "", int hsluong = 1, int hscv = 1, int nbd = 2000)
+        : Canbo(mcb, hoten, donvi, hsluong), hscv(hscv), nbd(nbd) {}
+
+    void setHscv(int hscv) {
+        this->hscv = hscv;
+    }
+    int getHscv() const {
+        return hscv;
+    }
+    void setNbd(int nbd) {
+        this->nbd = nbd;
+    }
+    int getNbd() const {
+        return nbd;
+    }
+
+    void nhap() {
+        Canbo::nhap();
+        cin >> hscv;
+        cin >> nbd;
+    }
+
+    void in() const override {
+        Canbo::in();
+        int soNamCongTac = 2024 - nbd;
+        double phuCap = 0;
+
+        if (soNamCongTac < 5) {
+            phuCap = 0;
+        } else if (soNamCongTac < 15) {
+            phuCap = 0.1;
+        } else if (soNamCongTac < 25) {
+            phuCap = 0.2;
+        } else {
+            phuCap = 0.3;
+        }
+
+        double luong = 1800000 * (gethsl() + hscv + phuCap);
+
+        cout << "HS chuc vu: " << hscv << endl;
+        cout << "Nam bat dau: " << nbd << endl;
+        cout << "So nam cong tac: " << soNamCongTac << endl;
+        cout << "Luong: " << luong << " VND" << endl;
+    }
+
+    double phuCap() const {
+        int soNamCongTac = 2024 - nbd;
+        double phuCap = 0;
+        if (soNamCongTac < 5) {
+            phuCap = 0;
+        } else if (soNamCongTac < 15) {
+            phuCap = 0.1;
+        } else if (soNamCongTac < 25) {
+            phuCap = 0.2;
+        } else {
+            phuCap = 0.3;
+        }
+        return phuCap;
+    }
+
+    int soNamCongTac() const {
+        return 2024 - nbd;
+    }
+};
+
+int main() {
+     int n;
+    cin >> n;
+
+    CanBoGiangDay canboList[50];
+
+    for (int i = 0; i < n; i++) {
+        canboList[i].nhap();
+    }
+
+    sort(canboList, canboList + n, [](const CanBoGiangDay& a, const CanBoGiangDay& b) {
+        return a > b;
+    });
+
+    for (int i = 0; i < n; i++) {
+        canboList[i].in();
+        cout << endl;
+    }
+
+    CanBoGiangDay minCanBo = canboList[0];
+    for (int i = 1; i < n; i++) {
+        if (canboList[i].soNamCongTac() < minCanBo.soNamCongTac()) {
+            minCanBo = canboList[i];
+        }
+    }
+    cout << "Can bo co so nam cong tac it nhat:" << endl;
+    minCanBo.in();
+
+    int year;
+    cin >> year;
+
+    int newSize = 0;
+    for (int i = 0; i < n; i++) {
+        if (canboList[i].getNbd() == year && canboList[i].phuCap() < 0.2) {
+            continue;
+        }
+        canboList[newSize++] = canboList[i];
+    }
+
+    cout << "Danh sach sau khi xoa cac can bo theo yeu cau:" << endl;
+    for (int i = 0; i < newSize; i++) {
+        canboList[i].in();
+        cout << endl;
+    }
+
+    return 0;
+}
