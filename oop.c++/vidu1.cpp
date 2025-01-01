@@ -115,6 +115,8 @@ int main() {
  /*  Congnhan s1;
     s1.nhap();
     s1.in();
+    s2.nhap();
+    s2.in();
     return 0;
     */
     int n;
