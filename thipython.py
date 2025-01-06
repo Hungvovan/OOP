@@ -36,7 +36,23 @@ def tohop(n,k):
     for i in range(1,k+1):
         result//=i
     return result
+""" So phong phu
+def uocso(n):
+    tong=0
+    for i in range(1,n):
+        if n%i==0:
+            tong+=i
+    return tong
 
+def tinhtong(n):
+    c=0
+    for i in range(1,n+1):
+        if uocso(i)>i:
+            c+=i
+    return c
+
+n=int(input())
+print(tinhtong(n))"""
 
 
 
