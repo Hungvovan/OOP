@@ -52,7 +52,63 @@ def tinhtong(n):
     return c
 
 n=int(input())
-print(tinhtong(n))"""
+print(tinhtong(n))
+Dictory
+def xuli():
+    n=int(input())
+    students=[]
+    for _ in range(n):
+        line=input()
+        parts=line.split(";")
+        student={
+            "id":parts[0].strip(),
+            "name":parts[1].strip(),
+            "gender":parts[2].strip(),
+            "class":parts[3].strip()
+        }
+        students.append(student)
+
+        max_nam=sum(1 for s in students if s["gender"]=="M")
+        max_nu=sum(1 for s in students if s["gender"]=="F")
+        xapxep=sorted(students,key=lambda x:x["class"])
+
+        print(max_nam,max_nu)
+        for s in xapxep:
+            print(f"{s['id']},{s['name']},{s['gender']},{s['class']}")
+
+
+xuli()
+
+def quan_ly_hang_hoa():
+    ListMH = []
+
+    print("Nhập thông tin mặt hàng (nhập tên mặt hàng rỗng để dừng):")
+    while True:
+        ten = input("Tên mặt hàng: ").strip()
+        if ten == "":
+            break
+        so_luong = int(input("Số lượng còn lại: "))
+        gia_ban = int(input("Giá bán: "))
+
+        mat_hang = {
+            "Ten": ten,
+            "SoLuong": so_luong,
+            "GiaBan": gia_ban
+        }
+        ListMH.append(mat_hang)
+
+    print("\nCác mặt hàng có số lượng dưới 5:")
+    for mh in ListMH:
+        if mh["SoLuong"] < 5:
+            print(f"- Tên: {mh['Ten']}, Số lượng: {mh['SoLuong']}, Giá bán: {mh['GiaBan']}")
+
+    tong_tien_hang = sum(mh["SoLuong"] * mh["GiaBan"] for mh in ListMH)
+    print(f"\nTổng số tiền hàng: {tong_tien_hang} VND")
+
+quan_ly_hang_hoa()
+
+
+"""
 
 
 
